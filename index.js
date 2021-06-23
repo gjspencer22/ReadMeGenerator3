@@ -120,19 +120,16 @@ const promptUser = () => {
         }
     ])
 }
-promptUser()
-.then(input => {
-    return copyFile(input);
-})
+
 // .then(markdown => {
 //     return createReadme(markdown);
 // })
 const questions = [];
 
 // TODO: Create a function to write README file
-const writeFile = fileContent => {
+const writeFileSync = (data) => {
     return new Promise((resolve, reject) => {
-      fs.writeFile('./dist/README.md', fileContent, err => {
+      fs.writeFileSync('./dist/README.md', data, err => {
         if (err) {
           reject(err);
           return;
@@ -145,24 +142,15 @@ const writeFile = fileContent => {
       });
     });
   };
-const copyFile = () => {
-    return new Promise((resolve, reject) => {
-      fs.copyFile('./dist/README.md', err => {
-        if (err) {
-          reject(err);
-          return;
-        }
-  
-        resolve({
-          ok: true,
-          message: 'ReadMe created!'
-        });
-      });
-    });
-  };
-
+  promptUser()
+  .then(input => {
+      return generateMarkdown(input);
+  })
+  .then(data => {
+      return writeFileSync(data);
+  })
 // TODO: Create a function to initialize app
 function init() { }
 
 // Function call to initialize app
-init();
+// init();
